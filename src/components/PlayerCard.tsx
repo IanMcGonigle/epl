@@ -13,7 +13,22 @@ export function PlayerCard({ player, onClose, comparisson }: IPlayerCardProps) {
   const dt =
     'w-1/4 border border-y-0 border-l-0 border-r-1 text-left font-semibold px-2 py-1';
   const dd = 'px-2  py-1';
-  const win = 'bg-lime-400 text-white';;
+
+  const ms = (property:string, base:string='', useHigher:boolean = true):string => {
+    return useHigher
+      ? cn(base, {
+          'bg-lime-400 text-white':
+            comparisson &&
+            player[property as keyof Player] >
+              comparisson[property as keyof Player],
+        })
+      : cn(base, {
+          'bg-lime-400 text-white':
+            comparisson &&
+            player[property as keyof Player] <
+              comparisson[property as keyof Player],
+        });
+  }
   return (
     <div className='border border-b-slate-200 relative'>
       <button
@@ -24,52 +39,35 @@ export function PlayerCard({ player, onClose, comparisson }: IPlayerCardProps) {
       </button>
       <h2 className='font-bold'>{player.PLAYER}</h2>
       <h3 className='font-bold'>{player.TEAM}</h3>
-      <dl className='flex border border-x-0 border-y-1'>
-        <dt className={cn(dt, { win: comparisson && player.Rank > comparisson.Rank, })} > RANK </dt>
+      <dl className={ms('Rank', 'flex border border-x-0 border-y-1', false)}>
+        <dt className={dt}>RANK</dt>
         <dd className={dd}>{player.Rank}</dd>
       </dl>
-      <dl className={tw}>
-        <dt
-          className={cn(dt, { win: comparisson && player.G > comparisson.G })}
-        >
-          g
-        </dt>
+      <dl className={ms('G', tw)}>
+        <dt className={dt}>g</dt>
         <dd className={dd}>{player.G}</dd>
       </dl>
-      <dl className={tw}>
-        <dt
-          className={cn(dt, {
-            win: comparisson && player.ASST > comparisson.ASST,
-          })}
-        >
-          ASST
-        </dt>
+      <dl className={ms('ASST',tw)}>
+        <dt className={dt}>ASST</dt>
         <dd className={dd}>{player.ASST}</dd>
       </dl>
-      <dl className={tw}>
-        <dt
-          className={cn(dt, {
-            win: comparisson && player.SOG > comparisson.SOG,
-          })}
-        >
-          {' '}
-          SOG{' '}
-        </dt>
+      <dl className={ms('SOG',tw)}>
+        <dt className={dt}>SOG</dt>
         <dd className={dd}>{player.SOG}</dd>
       </dl>
-      <dl className={tw}>
-        <dt className={cn(dt, { win: comparisson && player.SHOTS > comparisson.SHOTS, })} >SHOTS</dt>
+      <dl className={ms('SHOTS',tw)}>
+        <dt className={dt}>SHOTS</dt>
         <dd className={dd}>{player.SHOTS}</dd>
       </dl>
-      <dl className={tw}>
+      <dl className={ms('GP',tw)}>
         <dt className={dt}>GP</dt>
         <dd className={dd}>{player.GP}</dd>
       </dl>
-      <dl className={tw}>
+      <dl className={ms('GS',tw)}>
         <dt className={dt}>GS</dt>
         <dd className={dd}>{player.GS}</dd>
       </dl>
-      <dl className={tw}>
+      <dl className={ms('MIN',tw)}>
         <dt className={dt}>MIN</dt>
         <dd className={dd}>{player.MIN}</dd>
       </dl>
